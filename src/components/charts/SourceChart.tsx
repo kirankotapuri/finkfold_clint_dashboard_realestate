@@ -23,9 +23,9 @@ export default function SourceChart({ data }: SourceChartProps) {
   }));
 
   return (
-    <div className="bg-card border border-border rounded-xl p-4 sm:p-6">
-      <h3 className="text-sm font-semibold text-text-primary mb-4">Source Performance</h3>
-      <div className="h-64">
+    <div className="bg-card border border-border rounded-xl p-3 sm:p-4 md:p-6">
+      <h3 className="text-xs sm:text-sm font-semibold text-text-primary mb-3 sm:mb-4">Source Performance</h3>
+      <div className="h-48 sm:h-56 md:h-64">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={formatted} barCategoryGap="25%">
             <CartesianGrid strokeDasharray="3 3" stroke="#222222" />

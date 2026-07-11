@@ -110,7 +110,7 @@ export default function LeadDetailPage() {
   }
 
   return (
-    <div className="space-y-6 max-w-7xl">
+    <div className="space-y-4 sm:space-y-6 max-w-7xl">
       {/* Back button */}
       <button
         onClick={() => router.back()}
@@ -120,16 +120,16 @@ export default function LeadDetailPage() {
         Back to leads
       </button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 sm:gap-6">
         {/* Left: Lead profile */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="bg-card border border-border rounded-xl p-5">
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <h2 className="text-lg font-bold text-text-primary">{lead.name || 'Unknown'}</h2>
+        <div className="md:col-span-2 space-y-4">
+          <div className="bg-card border border-border rounded-xl p-4 sm:p-5">
+            <div className="flex items-start justify-between mb-4 flex-wrap gap-2">
+              <div className="min-w-0">
+                <h2 className="text-base sm:text-lg font-bold text-text-primary truncate">{lead.name || 'Unknown'}</h2>
                 <p className="text-xs text-text-muted">{formatDate(lead.created_at)}</p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-1.5 sm:gap-2 flex-wrap">
                 {lead.lead_score && <Badge label={lead.lead_score} type="score" />}
                 {lead.stage && <Badge label={lead.stage} type="stage" />}
               </div>
@@ -216,16 +216,16 @@ export default function LeadDetailPage() {
 
           {/* Site visits for this lead */}
           {visits.length > 0 && (
-            <div className="bg-card border border-border rounded-xl p-5">
-              <h3 className="text-sm font-semibold text-text-primary mb-3 flex items-center gap-2">
+            <div className="bg-card border border-border rounded-xl p-4 sm:p-5">
+              <h3 className="text-xs sm:text-sm font-semibold text-text-primary mb-3 flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-accent" />
                 Site Visits ({visits.length})
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 {visits.map((v) => (
                   <div key={v.id} className="p-3 bg-secondary rounded-lg border border-border">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs text-text-primary font-medium">
+                    <div className="flex items-center justify-between mb-1 gap-2">
+                      <span className="text-xs text-text-primary font-medium truncate">
                         {v.property_title || 'Property'}
                       </span>
                       <Badge label={v.status} type="visit" />
@@ -245,9 +245,9 @@ export default function LeadDetailPage() {
         </div>
 
         {/* Right: WhatsApp-style conversation */}
-        <div className="lg:col-span-3">
-          <div className="bg-card border border-border rounded-xl p-5 h-full flex flex-col">
-            <h3 className="text-sm font-semibold text-text-primary mb-4 flex items-center gap-2">
+        <div className="md:col-span-3">
+          <div className="bg-card border border-border rounded-xl p-4 sm:p-5 h-full flex flex-col">
+            <h3 className="text-xs sm:text-sm font-semibold text-text-primary mb-3 sm:mb-4 flex items-center gap-2">
               <MessageSquare className="w-4 h-4 text-success" />
               WhatsApp Conversation
             </h3>
@@ -257,14 +257,14 @@ export default function LeadDetailPage() {
                 No conversation history
               </div>
             ) : (
-              <div className="flex-1 overflow-y-auto space-y-3 max-h-[600px] pr-2">
+              <div className="flex-1 overflow-y-auto space-y-2 sm:space-y-3 max-h-[400px] sm:max-h-[500px] md:max-h-[600px] pr-2">
                 {conversation.map((msg, i) => (
                   <div
                     key={i}
                     className={`flex ${msg.role === 'user' ? 'justify-start' : 'justify-end'}`}
                   >
                     <div
-                      className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                      className={`max-w-[85%] sm:max-w-[80%] px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm leading-relaxed ${
                         msg.role === 'user'
                           ? 'bg-secondary text-text-primary rounded-bl-md'
                           : 'bg-accent/15 text-text-primary rounded-br-md'

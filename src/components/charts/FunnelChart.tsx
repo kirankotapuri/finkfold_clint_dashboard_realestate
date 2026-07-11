@@ -22,9 +22,9 @@ export default function FunnelChart({ data }: FunnelChartProps) {
   const sorted = [...data].sort((a, b) => a.ord - b.ord);
 
   return (
-    <div className="bg-card border border-border rounded-xl p-4 sm:p-6">
-      <h3 className="text-sm font-semibold text-text-primary mb-4">Conversion Funnel</h3>
-      <div className="h-64 sm:h-72">
+    <div className="bg-card border border-border rounded-xl p-3 sm:p-4 md:p-6">
+      <h3 className="text-xs sm:text-sm font-semibold text-text-primary mb-3 sm:mb-4">Conversion Funnel</h3>
+      <div className="h-48 sm:h-56 md:h-64 lg:h-72">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={sorted} layout="vertical" barCategoryGap="20%">
             <CartesianGrid strokeDasharray="3 3" stroke="#222222" horizontal={false} />

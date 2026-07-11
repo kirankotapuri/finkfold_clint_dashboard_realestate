@@ -67,20 +67,20 @@ export default function VisitsPage() {
   }
 
   return (
-    <div className="space-y-6 max-w-7xl">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6 max-w-7xl">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-text-primary flex items-center gap-2">
-            <CalendarCheck className="w-6 h-6 text-accent" />
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-text-primary flex items-center gap-2">
+            <CalendarCheck className="w-5 h-5 sm:w-6 sm:h-6 text-accent" />
             Site Visits
           </h1>
-          <p className="text-sm text-text-muted">{visits.length} visits</p>
+          <p className="text-xs sm:text-sm text-text-muted">{visits.length} visits</p>
         </div>
 
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="bg-card border border-border rounded-lg px-3 py-2 text-sm text-text-secondary focus:outline-none focus:border-accent"
+          className="bg-card border border-border rounded-lg px-3 py-2.5 sm:py-2 text-sm text-text-secondary focus:outline-none focus:border-accent w-full sm:w-auto"
         >
           {STATUS_OPTIONS.map((s) => (
             <option key={s} value={s}>
@@ -90,8 +90,58 @@ export default function VisitsPage() {
         </select>
       </div>
 
-      {/* Table */}
-      <div className="bg-card border border-border rounded-xl overflow-hidden">
+      {/* Mobile card view */}
+      <div className="block sm:hidden space-y-3">
+        {loading ? (
+          [...Array(5)].map((_, i) => (
+            <div key={i} className="bg-card border border-border rounded-xl p-4 animate-pulse">
+              <div className="h-4 bg-secondary rounded w-2/3 mb-2" />
+              <div className="h-3 bg-secondary rounded w-1/2 mb-2" />
+              <div className="h-3 bg-secondary rounded w-1/3" />
+            </div>
+          ))
+        ) : visits.length === 0 ? (
+          <div className="bg-card border border-border rounded-xl p-8 text-center text-text-muted">
+            No site visits found
+          </div>
+        ) : (
+          visits.map((visit) => (
+            <div
+              key={visit.id}
+              className="bg-card border border-border rounded-xl p-4 space-y-2"
+            >
+              <div className="flex items-start justify-between">
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-text-primary text-sm">{visit.lead_name || 'Unknown'}</p>
+                  <p className="text-xs text-text-muted mt-0.5">{formatDateTime(visit.scheduled_at)}</p>
+                </div>
+                <select
+                  value={visit.status}
+                  onChange={(e) => updateVisitStatus(visit.id, e.target.value)}
+                  className="bg-secondary border border-border rounded px-2 py-1.5 text-xs text-text-primary focus:outline-none focus:border-accent shrink-0 ml-2"
+                >
+                  <option value="scheduled">Scheduled</option>
+                  <option value="completed">Completed</option>
+                  <option value="cancelled">Cancelled</option>
+                  <option value="no_show">No Show</option>
+                </select>
+              </div>
+              {visit.property_title && visit.property_title !== '—' && (
+                <p className="text-xs text-text-secondary">Property: {visit.property_title}</p>
+              )}
+              {visit.agent_name && visit.agent_name !== '—' && (
+                <p className="text-xs text-text-muted">Agent: {visit.agent_name}</p>
+              )}
+              {visit.notes && (
+                <p className="text-xs text-text-muted border-t border-border pt-2 mt-2">{visit.notes}</p>
+              )}
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Table — hidden on mobile */}
+      <div className="hidden sm:block bg-card border border-border rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>

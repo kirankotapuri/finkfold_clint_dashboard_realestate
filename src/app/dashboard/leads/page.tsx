@@ -88,58 +88,108 @@ export default function LeadsPage() {
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return (
-    <div className="space-y-6 max-w-7xl">
+    <div className="space-y-4 sm:space-y-6 max-w-7xl">
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold text-text-primary">Leads</h1>
-        <p className="text-sm text-text-muted">{total} total leads</p>
+        <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-text-primary">Leads</h1>
+        <p className="text-xs sm:text-sm text-text-muted">{total} total leads</p>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-3 items-center">
-        <div className="relative flex-1 min-w-[200px] max-w-sm">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-3 items-stretch sm:items-center">
+        <div className="relative flex-1 min-w-0 sm:min-w-[200px] sm:max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
           <input
             type="text"
             placeholder="Search name or phone..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-card border border-border rounded-lg pl-9 pr-4 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
+            className="w-full bg-card border border-border rounded-lg pl-9 pr-4 py-2.5 sm:py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
           />
         </div>
 
-        <select
-          value={scoreFilter}
-          onChange={(e) => setScoreFilter(e.target.value)}
-          className="bg-card border border-border rounded-lg px-3 py-2 text-sm text-text-secondary focus:outline-none focus:border-accent"
-        >
-          {SCORE_OPTIONS.map((s) => (
-            <option key={s} value={s}>{s === 'all' ? 'All Scores' : s.charAt(0).toUpperCase() + s.slice(1)}</option>
-          ))}
-        </select>
+        <div className="flex gap-2 overflow-x-auto no-scrollbar">
+          <select
+            value={scoreFilter}
+            onChange={(e) => setScoreFilter(e.target.value)}
+            className="bg-card border border-border rounded-lg px-3 py-2.5 sm:py-2 text-sm text-text-secondary focus:outline-none focus:border-accent shrink-0"
+          >
+            {SCORE_OPTIONS.map((s) => (
+              <option key={s} value={s}>{s === 'all' ? 'All Scores' : s.charAt(0).toUpperCase() + s.slice(1)}</option>
+            ))}
+          </select>
 
-        <select
-          value={stageFilter}
-          onChange={(e) => setStageFilter(e.target.value)}
-          className="bg-card border border-border rounded-lg px-3 py-2 text-sm text-text-secondary focus:outline-none focus:border-accent"
-        >
-          {STAGE_OPTIONS.map((s) => (
-            <option key={s} value={s}>{s === 'all' ? 'All Stages' : s.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}</option>
-          ))}
-        </select>
+          <select
+            value={stageFilter}
+            onChange={(e) => setStageFilter(e.target.value)}
+            className="bg-card border border-border rounded-lg px-3 py-2.5 sm:py-2 text-sm text-text-secondary focus:outline-none focus:border-accent shrink-0"
+          >
+            {STAGE_OPTIONS.map((s) => (
+              <option key={s} value={s}>{s === 'all' ? 'All Stages' : s.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}</option>
+            ))}
+          </select>
 
-        <select
-          value={sourceFilter}
-          onChange={(e) => setSourceFilter(e.target.value)}
-          className="bg-card border border-border rounded-lg px-3 py-2 text-sm text-text-secondary focus:outline-none focus:border-accent"
-        >
-          {SOURCE_OPTIONS.map((s) => (
-            <option key={s} value={s}>{s === 'all' ? 'All Sources' : s.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}</option>
-          ))}
-        </select>
+          <select
+            value={sourceFilter}
+            onChange={(e) => setSourceFilter(e.target.value)}
+            className="bg-card border border-border rounded-lg px-3 py-2.5 sm:py-2 text-sm text-text-secondary focus:outline-none focus:border-accent shrink-0"
+          >
+            {SOURCE_OPTIONS.map((s) => (
+              <option key={s} value={s}>{s === 'all' ? 'All Sources' : s.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
-      {/* Table */}
-      <div className="bg-card border border-border rounded-xl overflow-hidden">
+      {/* Mobile card view */}
+      <div className="block sm:hidden space-y-3">
+        {loading ? (
+          [...Array(5)].map((_, i) => (
+            <div key={i} className="bg-card border border-border rounded-xl p-4 animate-pulse">
+              <div className="h-4 bg-secondary rounded w-2/3 mb-2" />
+              <div className="h-3 bg-secondary rounded w-1/2 mb-2" />
+              <div className="h-3 bg-secondary rounded w-1/3" />
+            </div>
+          ))
+        ) : leads.length === 0 ? (
+          <div className="bg-card border border-border rounded-xl p-8 text-center text-text-muted">
+            No leads found
+          </div>
+        ) : (
+          leads.map((lead) => (
+            <Link
+              key={lead.id}
+              href={`/dashboard/leads/${lead.id}`}
+              className="block bg-card border border-border rounded-xl p-4 hover:border-accent/40 transition-colors active:bg-secondary/50"
+            >
+              <div className="flex items-start justify-between mb-2">
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-text-primary text-sm truncate">
+                    {lead.name || 'Unknown'}
+                    {lead.bot_paused && (
+                      <span className="ml-2 text-[10px] bg-warm/15 text-warm px-1.5 py-0.5 rounded">Human</span>
+                    )}
+                  </p>
+                  <p className="text-xs text-text-muted font-mono mt-0.5">{maskPhone(lead.phone)}</p>
+                </div>
+                <div className="flex gap-1.5 shrink-0 ml-2">
+                  {lead.lead_score && <Badge label={lead.lead_score} type="score" />}
+                  {lead.stage && <Badge label={lead.stage} type="stage" />}
+                </div>
+              </div>
+              <div className="flex items-center gap-3 text-xs text-text-muted">
+                <span className="capitalize">{lead.source?.replace(/_/g, ' ') || '—'}</span>
+                <span>•</span>
+                <span>{lead.property_type_interest || '—'}</span>
+                <span>•</span>
+                <span>{timeAgo(lead.created_at)}</span>
+              </div>
+            </Link>
+          ))
+        )}
+      </div>
+
+      {/* Table — hidden on mobile */}
+      <div className="hidden sm:block bg-card border border-border rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -248,6 +298,31 @@ export default function LeadsPage() {
           </div>
         )}
       </div>
+
+      {/* Mobile pagination */}
+      {totalPages > 1 && (
+        <div className="flex sm:hidden items-center justify-between px-1 py-2">
+          <p className="text-xs text-text-muted">
+            Page {page + 1} of {totalPages}
+          </p>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
+              disabled={page === 0}
+              className="p-2 rounded-lg bg-card border border-border text-text-secondary hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+              disabled={page >= totalPages - 1}
+              className="p-2 rounded-lg bg-card border border-border text-text-secondary hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

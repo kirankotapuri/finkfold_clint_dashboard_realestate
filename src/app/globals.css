@@ -16,6 +16,14 @@
   --color-cold: #6B7280;
   --color-success: #22C55E;
   --font-sans: var(--font-inter);
+
+  /* Responsive breakpoints:
+     sm: 640px  (large phones landscape)
+     md: 768px  (tablets portrait)
+     lg: 1024px (tablets landscape / laptops)
+     xl: 1280px (desktops)
+     2xl: 1536px (large desktops)
+  */
 }
 
 * {
@@ -27,6 +35,16 @@ body {
   background: var(--color-primary);
   color: var(--color-text-primary);
   font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Touch-friendly tap targets for mobile */
+@media (max-width: 768px) {
+  button, a, select, input {
+    min-height: 44px;
+  }
+  select {
+    font-size: 16px; /* prevents iOS zoom on focus */
+  }
 }
 
 /* Custom scrollbar */
@@ -43,4 +61,13 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-text-muted);
+}
+
+/* Hide scrollbar on mobile for horizontal scroll areas */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

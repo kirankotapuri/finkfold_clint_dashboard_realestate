@@ -66,21 +66,21 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-primary flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-primary flex items-center justify-center px-4 py-8 sm:py-4">
+      <div className="w-full max-w-sm sm:max-w-md">
         {/* Logo & branding */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center mb-4">
-            <Image src="/logo.png" alt="Finkfold" width={160} height={40} className="h-9 w-auto" />
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="flex items-center justify-center mb-3 sm:mb-4">
+            <Image src="/logo.png" alt="Finkfold" width={160} height={40} className="h-7 sm:h-9 w-auto" />
           </div>
-          <h1 className="text-xl font-semibold text-text-primary">Client Dashboard</h1>
-          <p className="text-sm text-text-muted mt-1">
+          <h1 className="text-lg sm:text-xl font-semibold text-text-primary">Client Dashboard</h1>
+          <p className="text-xs sm:text-sm text-text-muted mt-1">
             {view === 'login' ? 'Sign in to view your leads and analytics' : 'Reset your password'}
           </p>
         </div>
 
         {/* Login form */}
-        <div className="bg-card border border-border rounded-xl p-6 sm:p-8">
+        <div className="bg-card border border-border rounded-xl p-5 sm:p-6 md:p-8">
           {view === 'login' ? (
             <form onSubmit={handleLogin} className="space-y-4">
               <div>

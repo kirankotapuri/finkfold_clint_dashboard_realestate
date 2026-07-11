@@ -13,20 +13,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <div className="min-h-screen bg-primary">
         <Sidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-        {/* Main content */}
-        <div className="lg:pl-60">
+        {/* Main content — offset for tablet (icon sidebar) and desktop (full sidebar) */}
+        <div className="md:pl-16 lg:pl-60">
           {/* Mobile header */}
-          <header className="lg:hidden sticky top-0 z-20 bg-secondary/80 backdrop-blur-sm border-b border-border px-4 py-3 flex items-center gap-3">
+          <header className="md:hidden sticky top-0 z-20 bg-secondary/80 backdrop-blur-sm border-b border-border px-4 py-3 flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="text-text-secondary hover:text-text-primary"
+              className="text-text-secondary hover:text-text-primary p-1"
             >
               <Menu className="w-6 h-6" />
             </button>
             <span className="text-sm font-semibold text-text-primary">Finkfold Dashboard</span>
           </header>
 
-          <main className="p-4 sm:p-6 lg:p-8">
+          <main className="p-3 sm:p-4 md:p-6 lg:p-8">
             {children}
           </main>
         </div>

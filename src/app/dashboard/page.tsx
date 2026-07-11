@@ -76,31 +76,31 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="space-y-6 animate-pulse">
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div className="space-y-4 sm:space-y-6 animate-pulse">
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="bg-card border border-border rounded-xl h-28" />
+            <div key={i} className="bg-card border border-border rounded-xl h-24 sm:h-28" />
           ))}
         </div>
-        <div className="bg-card border border-border rounded-xl h-72" />
+        <div className="bg-card border border-border rounded-xl h-56 sm:h-72" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 max-w-7xl">
+    <div className="space-y-4 sm:space-y-6 max-w-7xl">
       {/* Page header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-text-primary">Dashboard</h1>
-          <p className="text-sm text-text-muted">Your lead generation performance at a glance</p>
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-text-primary">Dashboard</h1>
+          <p className="text-xs sm:text-sm text-text-muted">Your lead generation performance at a glance</p>
         </div>
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar pb-1">
           {[7, 14, 30, 90, 180, 365].map((d) => (
             <button
               key={d}
               onClick={() => setDays(d)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+              className={`px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs font-medium rounded-lg transition-colors whitespace-nowrap shrink-0 ${
                 days === d
                   ? 'bg-accent text-white'
                   : 'bg-card border border-border text-text-secondary hover:text-text-primary'
@@ -111,7 +111,7 @@ export default function DashboardPage() {
           ))}
           <button
             onClick={() => setDays(0)}
-            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+            className={`px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs font-medium rounded-lg transition-colors whitespace-nowrap shrink-0 ${
               days === 0
                 ? 'bg-accent text-white'
                 : 'bg-card border border-border text-text-secondary hover:text-text-primary'
@@ -123,7 +123,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Metric cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
         <MetricCard
           label="Leads this period"
           value={summary?.leads_in_period ?? 0}
@@ -166,12 +166,12 @@ export default function DashboardPage() {
       <FunnelChart data={funnel} />
 
       {/* Charts grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         <LeadsChart data={leadsOverTime} />
         <SourceChart data={sourcePerf} />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         <ScoreDonut data={scoreSplit} />
         <div className="bg-card border border-border rounded-xl p-4 sm:p-6 flex flex-col items-center justify-center text-center">
           <p className="text-4xl font-bold text-text-primary">{summary?.total_leads ?? 0}</p>

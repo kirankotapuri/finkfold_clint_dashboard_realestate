@@ -139,9 +139,56 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
 
   return (
     <>
-      {/* Desktop sidebar */}
+      {/* Desktop sidebar — full width */}
       <aside className="hidden lg:block w-60 fixed inset-y-0 left-0 z-30">
         {sidebarContent}
+      </aside>
+
+      {/* Tablet sidebar — compact icon-only */}
+      <aside className="hidden md:flex lg:hidden w-16 fixed inset-y-0 left-0 z-30 flex-col items-center bg-secondary border-r border-border py-4 gap-1">
+        <div className="mb-4 px-2">
+          <Image src="/logo.png" alt="Finkfold" width={32} height={32} className="h-8 w-8 object-contain" />
+        </div>
+        {(isAdmin ? adminItems : navItems).map((item) => {
+          const isActive = pathname === item.href || 
+            (item.href !== '/dashboard' && pathname.startsWith(item.href));
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              title={item.label}
+              className={`flex items-center justify-center w-10 h-10 rounded-lg transition-colors ${
+                isActive
+                  ? 'bg-accent/10 text-accent'
+                  : 'text-text-secondary hover:text-text-primary hover:bg-card'
+              }`}
+            >
+              <item.icon className="w-5 h-5" />
+            </Link>
+          );
+        })}
+        {isAdmin && (
+          <Link
+            href="/dashboard/settings"
+            title="Settings"
+            className={`flex items-center justify-center w-10 h-10 rounded-lg transition-colors ${
+              pathname === '/dashboard/settings'
+                ? 'bg-accent/10 text-accent'
+                : 'text-text-secondary hover:text-text-primary hover:bg-card'
+            }`}
+          >
+            <Settings className="w-5 h-5" />
+          </Link>
+        )}
+        <div className="mt-auto">
+          <button
+            onClick={signOut}
+            title="Sign Out"
+            className="flex items-center justify-center w-10 h-10 rounded-lg text-text-secondary hover:text-hot hover:bg-card transition-colors"
+          >
+            <LogOut className="w-5 h-5" />
+          </button>
+        </div>
       </aside>
 
       {/* Mobile sidebar overlay */}
@@ -152,7 +199,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 z-40 lg:hidden"
+              className="fixed inset-0 bg-black/60 z-40 md:hidden"
               onClick={onClose}
             />
             <motion.aside
@@ -160,7 +207,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 left-0 w-60 z-50 lg:hidden"
+              className="fixed inset-y-0 left-0 w-64 z-50 md:hidden"
             >
               {sidebarContent}
             </motion.aside>
