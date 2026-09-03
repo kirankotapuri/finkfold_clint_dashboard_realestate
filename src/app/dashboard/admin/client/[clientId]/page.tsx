@@ -39,7 +39,7 @@ export default function AdminClientView() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'leads' | 'visits' | 'setup'>('leads');
 
-  // Edit/Delete state
+  // Edit/Delete states 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editName, setEditName] = useState('');
   const [editCity, setEditCity] = useState('');
